@@ -1,7 +1,7 @@
 from color import Color
 
 
-class Text:
+class ConsoleText:
     def __init__(self, text: str, color: Color):
         self.text = text
         self.color = color

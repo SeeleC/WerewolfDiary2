@@ -3,13 +3,29 @@ class Color:
         self.color = color
         self.state = state
 
-    def get_formatted_text(self, text: str):
+    def dyeing_text(self, text: str) -> str:
         if self.color is not None:
             return '\033[' + str(self.state) + ';' + str(self.color) + 'm' + text + '\033[0m'
         else:
             return '\033[' + str(self.state) + 'm' + text + '\033[0m'
 
-    class Code:
+    def set_state(self, state: int):
+        self.state = state
+        return self
+
+    def set_color(self, color: int):
+        self.color = color
+        return self
+
+    class State:
+        PLAIN = 0
+        BOLD = 1
+        UNDERSCORE = 4
+        EVASIVE = 5
+        REVERSE = 7
+        DISAPPEAR = 8
+
+    class Color:
         BLACK = 30
         BLUE = 34
         GREEN = 32
@@ -19,10 +35,3 @@ class Color:
         BROWN = 33
         YELLOW = 33
         WHITE = 37
-
-        PLAIN = 0
-        BOLD = 1
-        UNDERSCORE = 4
-        EVASIVE = 5
-        REVERSE = 7
-        DISAPPEAR = 8
