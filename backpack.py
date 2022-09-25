@@ -1,5 +1,6 @@
-from functions import get_item
-from item import Item, Items
+from functions import get_item_from_id
+from item import Item
+from itemstack import ItemStack
 
 
 class Backpack:
@@ -7,22 +8,28 @@ class Backpack:
         self.items = {}
         for i in lst:
             id, amount = i.split('*')
-            self.items[get_item(id)] = int(amount)
+            self.items[id] = ItemStack(get_item_from_id(id), int(amount))
 
-    def get_formatted_items(self):
-        return [f'{i.id}*{j}' for i, j in self.items.items() if j > 0]
+    def to_list(self, value_type: str = 'name'):
+        return [f'{eval(f"i.item.{value_type}")}*{i.amount}' for i in self.items.values() if i.amount > 0]
 
     def get_items(self):
-        return {i: j for i, j in self.items.items() if j > 0}
+        return [i for i in self.items.values() if i.amount > 0]
 
     def add_item(self, item: Item, amount: int = 1):
         try:
-            self.items[item] += amount
+            self.items[item.id].amount += amount
         except KeyError:
-            self.items[item] = amount
+            self.items[item.id] = ItemStack(item, amount)
 
     def reduce_item(self, item: Item, amount: int):
-        if self.items[item] < amount:
+        if self.items[item.id].amount < amount:
             raise ValueError(f'背包中的 {item.name} 数量少于 {amount} ！')
         else:
-            self.items[item] -= amount
+            self.items[item.id].amount -= amount
+
+    def has(self, item: Item):
+        if item in [i.item for i in self.items.values()]:
+            return True
+        else:
+            return False

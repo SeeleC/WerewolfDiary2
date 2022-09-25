@@ -2,6 +2,16 @@ __version__ = '2.0.0indev'
 
 from color import Color
 
+default_backpack = [
+    'wooden_sword*1',
+    'wooden_axe*1',
+    'wooden_shovel*1',
+    'electric_torch*1',
+    'meat*4',
+    'timber*50',
+    'stone*50'
+]
+
 default_data = {
     'username': '',
     'health': 5,
@@ -9,20 +19,9 @@ default_data = {
     'location': '',
     'date': 1,
     'daytime': 0,
-    'active_balance': 6
-}
-
-default_items = {
-    'iron': 0,
-    'pumpkin': 0,
-    'ice': 0,
-    'wood': 50,
-    'fur': 0,
-    'food': 4,
-    'mushroom': 0,
-    'soil': 0,
-    'stone': 50,
-    'gold': 0,
+    'active_balance': 6,
+    'alive_enemy': {},
+    'knowledge': []
 }
 
 recover_active_balance = 6
@@ -34,7 +33,7 @@ stochastic_events = [
     '一个魁梧的男人挡住了你的去路，他看上去不好惹。',
 ]
 
-debug_color = Color(Color.State.PLAIN, Color.Color.GREEN)
-info_color = Color(Color.State.PLAIN, Color.Color.CYAN)
-warn_color = Color(Color.State.PLAIN, Color.Color.YELLOW)
-fatal_color = Color(Color.State.PLAIN, Color.Color.RED)
+debug_color = Color(Color.States.PLAIN, Color.Colors.GREEN)
+info_color = Color(Color.States.PLAIN, Color.Colors.CYAN)
+warn_color = Color(Color.States.PLAIN, Color.Colors.YELLOW)
+fatal_color = Color(Color.States.PLAIN, Color.Colors.RED)

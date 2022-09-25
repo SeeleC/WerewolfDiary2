@@ -3,11 +3,11 @@ class Color:
         self.color = color
         self.state = state
 
-    def dyeing_text(self, text: str) -> str:
+    def dyeing_text(self, text: str, end: str = '\033[0m') -> str:
         if self.color is not None:
-            return '\033[' + str(self.state) + ';' + str(self.color) + 'm' + text + '\033[0m'
+            return '\033[' + str(self.state) + ';' + str(self.color) + 'm' + text + end
         else:
-            return '\033[' + str(self.state) + 'm' + text + '\033[0m'
+            return '\033[' + str(self.state) + 'm' + text + end
 
     def set_state(self, state: int):
         self.state = state
@@ -17,7 +17,7 @@ class Color:
         self.color = color
         return self
 
-    class State:
+    class States:
         PLAIN = 0
         BOLD = 1
         UNDERSCORE = 4
@@ -25,7 +25,7 @@ class Color:
         REVERSE = 7
         DISAPPEAR = 8
 
-    class Color:
+    class Colors:
         BLACK = 30
         BLUE = 34
         GREEN = 32

@@ -2,6 +2,7 @@ from random import randint
 
 from backpack import Backpack
 from config import *
+from entity import *
 from functions import *
 from item import *
 
@@ -27,8 +28,11 @@ def main():
             elif act_home in ['3', '待在家里']:
                 pass
             elif act_home == 'q':
-
+                save_and_quit()
                 break
+
+        if data['health'] <= 0:
+            break
         else:
             print('夜幕降临，你感到很疲惫，回到家便开始了休息……')
             data['date'] += 1
@@ -38,13 +42,13 @@ def main():
     if data['health'] <= 0:
         print('你被怪物插穿了胸膛，死亡的恐惧攫住了你的心。')
         print('“不，我不想死！”你大喊，狰狞的声音回荡在冷寂的森林。')
-        print('次日，政府的探险队找到了你，队长在你残缺不全的尸体上发现了一本日记……')
-        info(f'\n你的名字：{data["username"]}\n你的财产：{data["balance"]}\n{backpack.get_formatted_items()}')
+        print('次日，探险队找到了你，队长在你残缺不全的尸体上发现了一本日记……')
+        info(f'\n你的名字：{data["username"]}\n你的财产：{data["balance"]}\n{backpack.to_list()}')
 
 
-def save_data():
+def save_and_quit():
     save('data\\data.json', data)
-    save('data\\backpack.json', backpack.get_formatted_items())
+    save('data\\backpack.json', backpack.to_list(value_type='id'))
 
 
 def update_daytime():
@@ -69,7 +73,9 @@ def visit_forest():
     while data['active_balance'] > 0:
         print()
 
-        act_forest = input('你来到了森林，你要做什么？[1.搜索 2.挖掘 3.砍伐] (按q返回)')
+        update_daytime()
+        info('现在是' + time_tips[data['daytime']])
+        act_forest = input('你来到了森林，你要做什么？[1.搜索 2.挖掘 3.砍伐] (按q返回): ')
         if act_forest in ['1', '搜索']:
             data['active_balance'] -= 1
 
@@ -83,16 +89,69 @@ def visit_forest():
             )
             if blueprint is not None:  # TODO 验证蓝图是否重复获得
                 backpack.add_item(blueprint)
-                print(f'你太辛运了，你找到了一张图纸：[{str(blueprint)}]')
+                print(f'你太辛运了，你找到了一张图纸：[ {str(blueprint)} ]')
 
             meat = randint(0, 3)
             mushroom = randint(0, 5)
             backpack.add_item(Items.MEAT, meat)
             backpack.add_item(Items.MUSHROOM, mushroom)
-            info(f'找到了 {Backpack([f"肉*{meat}", f"蘑菇*{mushroom}"]).get_formatted_items()}')
-            info('现在是' + time_tips[data['daytime']])
+            info(f'找到了 {Backpack([f"meat*{meat}", f"mushroom*{mushroom}"]).to_list()}')
         elif act_forest in ['2', '挖掘']:
-            pass
+            shovels = [i.item.name for i in backpack.get_items() if i.item.type == ItemType.T_SHOVEL]
+            if shovels:
+                while data['health'] > 0:
+                    chosen_shovel = input(f'你要用哪把工具？{shovels} (按q返回): ')
+                    if chosen_shovel == 'q':
+                        break
+                    elif chosen_shovel not in shovels:
+                        warn(f'名为[ {chosen_shovel} ]的物品不存在！')
+                        continue
+                else:
+                    monster = random_choice([i for i in vars(Entities) if isinstance(i, Entity)], 0.5)
+                    if monster is not None:
+                        monster_max_health = monster.health
+                        data['alive_enemy'] = monster.to_dict()
+                        data['active_balance'] -= 3
+                        if monster.id not in data['knowledge']:
+                            print('你正挖掘着，一声奇怪的声音打断了你。有东西在靠近，准备战斗！')
+                            info(f'你发现了新生物: [ {monster.name} ]')
+                            data['knowledge'].append(monster.id)
+                        else:
+                            print('一个身影正在飞速靠近，啊，是', monster.name, '，准备战斗！')
+
+                        while data['health'] > 0:
+                            act_fight = input('选项: [1.战斗 2.逃跑]')
+                            weapons = [
+                                i.item.name for i in backpack.get_items() if i.item.type in [
+                                    ItemType.T_SWORD,
+                                    ItemType.T_BOW,
+                                    ItemType.T_SPEAR
+                                ]
+                            ]
+                            if act_fight in ['1', '战斗']:
+                                info(f'你的血量: [5/{data["health"]}]')
+                                info(f'怪物的血量: [{monster_max_health}/{monster.health}]')
+                                weapon = input(f'你要用哪把武器？{weapons}: ')
+                                monster.health -= weapon
+                                # TODO 做完
+                            elif act_fight in ['2', '逃跑']:
+                                escape = choice([True, False])
+                                if escape:
+                                    print('你摆脱了怪物，你感到很疲惫。')
+                                    data['alive_enemy'] = {}
+                                    break
+                                else:
+                                    print('逃跑失败，你不得不与其战斗。')
+                                    act_fight = 1
+                                    continue
+                    else:
+                        data['active_balance'] -= 1
+                        print('忙活了半天，除了一堆土，你一无所获。')
+                        soil = randint(8, 16)
+                        backpack.add_item(Items.SOIL, soil)
+                        info(f'+ {soil} 土壤')
+            else:
+                warn('你的背包中没有任何锹！')
         elif act_forest in ['3', '砍伐']:
             pass
         elif act_forest == 'q':
