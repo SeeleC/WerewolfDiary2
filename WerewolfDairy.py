@@ -98,16 +98,18 @@ def visit_forest():
             info(f'找到了 {Backpack([f"meat*{meat}", f"mushroom*{mushroom}"]).to_list()}')
         elif act_forest in ['2', '挖掘']:
             shovels = [i.item.name for i in backpack.get_items() if i.item.type == ItemType.T_SHOVEL]
+            choosing = True
             if shovels:
-                while data['health'] > 0:
+                while choosing:
                     chosen_shovel = input(f'你要用哪把工具？{shovels} (按q返回): ')
                     if chosen_shovel == 'q':
                         break
                     elif chosen_shovel not in shovels:
                         warn(f'名为[ {chosen_shovel} ]的物品不存在！')
                         continue
+                    choosing = False
                 else:
-                    monster = random_choice([i for i in vars(Entities) if isinstance(i, Entity)], 0.5)
+                    monster = Entities.SQUIRREL  # random_choice([i for i in vars(Entities) if isinstance(i, Entity)], 0.5)
                     if monster is not None:
                         monster_max_health = monster.health
                         data['alive_enemy'] = monster.to_dict()
@@ -120,7 +122,7 @@ def visit_forest():
                             print('一个身影正在飞速靠近，啊，是', monster.name, '，准备战斗！')
 
                         while data['health'] > 0:
-                            act_fight = input('选项: [1.战斗 2.逃跑]')
+                            act_fight = input('你的选择是？[1.战斗 2.逃跑]: ')
                             weapons = [
                                 i.item.name for i in backpack.get_items() if i.item.type in [
                                     ItemType.T_SWORD,
@@ -132,8 +134,19 @@ def visit_forest():
                                 info(f'你的血量: [5/{data["health"]}]')
                                 info(f'怪物的血量: [{monster_max_health}/{monster.health}]')
                                 weapon = input(f'你要用哪把武器？{weapons}: ')
-                                monster.health -= weapon
-                                # TODO 做完
+                                weapon_item = get_item_from_name(weapon)
+                                monster.health -= weapon_item.attack_damage
+                                data['health'] -= monster.attack
+                                info(f'你的血量 -{monster.attack}')
+                                info(f'怪物的血量 -{weapon_item.attack_damage}')
+                                if monster.health > 0:
+                                    act_fight = input('你的选择是？[1.继续战斗 2.逃跑]: ')
+                                elif data['health'] <= 0:
+                                    break
+                                else:
+                                    print(f'{monster.name} 已死亡！')
+                                    info('你获得了 xxx')  # TODO　战利品
+                                    break
                             elif act_fight in ['2', '逃跑']:
                                 escape = choice([True, False])
                                 if escape:
