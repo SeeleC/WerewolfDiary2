@@ -1,0 +1,6 @@
+{
+  "help": "/help [页码]",
+  "goto": "/goto <地点>",
+  "quit": "/quit",
+  "buy": "/buy <购买物品> [数量]"
+}

@@ -1,0 +1,27 @@
+{
+  "help": "event.help.list",
+  "goto": {
+    "": "event.goto.list",
+
+  },
+  "op": {
+    "kill": "event.op.kill",
+    "get": "event.op.get",
+    "discard": "event.op.discard"
+  },
+  "backpack": {
+    "": "event.backpack.list",
+    "info": "event.backpack.info",
+    "use": "event.backpack.use"
+  },
+  "quit": "event.programme.quit",
+  "shop": {
+    "": "event.shop.info",
+    "buy": "event.shop.buy"
+  },
+  "py": "event.python_coding",
+  "balance": {
+    "": "event.balance.info",
+    "pay": "event.balance.pay"
+  }
+}

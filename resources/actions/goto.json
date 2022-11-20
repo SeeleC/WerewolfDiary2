@@ -1,0 +1,16 @@
+{
+  "name": "goto",
+  "id": "action.goto",
+  "description": "go to somewhere",
+  "args": {
+    "place": {
+      "args": [
+        "street",
+        "forest",
+        "home",
+        "suburbs",
+        "roadside"
+      ]
+    }
+  }
+}

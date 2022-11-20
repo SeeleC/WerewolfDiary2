@@ -1,33 +1,34 @@
 from json import dump, load
 from os import path, mkdir, getcwd
 from random import random, choice
+from typing import Union
 
-from config import default_data, debug_color, info_color, warn_color, fatal_color, default_backpack
+from config import debug_color, info_color, warn_color, fatal_color
 from color import Color
 from item import Item, Items
 from recipe import Recipe
 
 
-def get_backpack() -> list:
-    verify_dir()
+def act(text: str) -> list[str]:
+    if text[0] == '/':
+        command = text.split(' ')
+        args = [i for i in command[1:]]
 
-    if not path.exists(path.join(getcwd(), 'data\\backpack.json')):
-        backpack = default_backpack
-        save('data\\backpack.json', backpack)
+        if len(command) == 1:
+            return [f'event.{command[0]}.list']
+        else:
+            return [f'event.{command[0]}.{command[1]}', args]
     else:
-        with open('data\\backpack.json', 'r', encoding='utf-8') as f:
-            backpack = load(f)
-    return backpack
+        raise SyntaxError()
 
 
-def get_data() -> dict:
-    verify_dir()
-
-    if not path.exists(path.join(getcwd(), 'data\\data.json')):
-        data = default_data
-        save('data\\data.json', data)
+def get_file(filename, default=None) -> Union[dict, list]:
+    if not path.exists(path.join(getcwd(), filename)) and default is not None:
+        verify_dir('data')
+        data = default
+        save(filename, data)
     else:
-        with open('data\\data.json', 'r', encoding='utf-8') as f:
+        with open(filename, 'r', encoding='utf-8') as f:
             data = load(f)
     return data
 
@@ -69,22 +70,6 @@ def save(filename: str, data) -> None:
         dump(data, f, indent=1)
 
 
-def verify_dir() -> None:
-    if not path.exists(path.join(getcwd(), 'data')):
-        mkdir('data')
-
-
-def debug(text: str) -> None:
-    printc(text, debug_color)
-
-
-def info(text: str) -> None:
-    printc(text, info_color)
-
-
-def warn(text: str) -> None:
-    printc(text, warn_color)
-
-
-def fatal(text: str) -> None:
-    printc(text, fatal_color)
+def verify_dir(name: str) -> None:
+    if not path.exists(path.join(getcwd(), name)):
+        mkdir(name)

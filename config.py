@@ -16,7 +16,7 @@ default_data = {
     'username': '',
     'health': 5,
     'balance': 0,
-    'location': '',
+    'location': 'home',
     'date': 1,
     'daytime': 0,
     'active_balance': 6,
