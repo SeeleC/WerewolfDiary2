@@ -1,0 +1,47 @@
+[
+  {
+    "level": "info",
+    "text": "[剧情]"
+  },
+  {
+    "level": "plain",
+    "text": "曙光破晓，怪物停止了杀戮，幸存者从新一天的阳光中醒来。"
+  },
+  {
+    "level": "plain",
+    "text": "你住在东镇，是一名平平无奇的冒险者。"
+  },
+  {
+    "level": "plain",
+    "text": "你的家在东区外围，这里物价便宜，但也濒临城郊，晚上就是怪物的天堂。"
+  },
+  {
+    "level": "info",
+    "text": "[游戏设定]"
+  },
+  {
+    "level": "plain",
+    "var": "recover_active_balance",
+    "text": "你每天有 %d 次活动时间"
+  },
+  {
+    "level": "plain",
+    "text": "如果不吃食物，你将会饿死。你会在开局获得四个肉。"
+  },
+  {
+    "level": "plain",
+    "text": "你可以在商店用物品来换取钱币。"
+  },
+  {
+    "level": "plain",
+    "text": "在大多数情况下，你都有可能触发特殊剧情。"
+  },
+  {
+    "level": "plain",
+    "text": "你可以输入 /help 来获取关于你所在场景的帮助。"
+  },
+  {
+    "level": "plain",
+    "text": "\n现在，开始你的日记！"
+  }
+]

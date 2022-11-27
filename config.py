@@ -1,15 +1,7 @@
 __version__ = '2.0.0indev'
 
-from color import Color
-
 default_backpack = [
-    'wooden_sword*1',
-    'wooden_axe*1',
-    'wooden_shovel*1',
-    'electric_torch*1',
     'meat*4',
-    'timber*50',
-    'stone*50'
 ]
 
 default_data = {
@@ -32,8 +24,3 @@ stochastic_events = [
     '你遇到了一个乞丐，他衣衫褴褛，面前有一只破碗，貌似需要点钱。',
     '一个魁梧的男人挡住了你的去路，他看上去不好惹。',
 ]
-
-debug_color = Color(Color.States.PLAIN, Color.Colors.GREEN)
-info_color = Color(Color.States.PLAIN, Color.Colors.CYAN)
-warn_color = Color(Color.States.PLAIN, Color.Colors.YELLOW)
-fatal_color = Color(Color.States.PLAIN, Color.Colors.RED)
