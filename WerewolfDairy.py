@@ -14,14 +14,18 @@ class WerewolfDiary:
         self.data = read_file('data\\data.json', default_data)
         self.backpack = read_file('data\\backpack.json', default_backpack)
 
-        self.introduce = False
+        self.plot = False
+        self.plot_file = ''
+
+        self.input_sign = ''
 
         if not self.data['username']:
             self.data['username'] = self.get_username()
-            self.introduce = True
-            self.intro_idx = 0
+            self.plot = True
+            self.plot_file = 'introduction.json'
+            self.plot_idx = 0
 
-            self.printer.info('重复按下 Enter ')
+            self.printer.info('重复按下 Enter 以阅读信息')
 
         self.main()
 
@@ -42,23 +46,28 @@ class WerewolfDiary:
     def main(self):
         while True:
             try:
-                input_action = input(f'{self.data["username"]}/{self.data["location"]}>')
+                if self.plot:
+                    self.input_sign = '*'
+                else:
+                    self.input_sign = ''
 
-                if self.introduce:
-                    intro = read_file('resources\\text\\introduction.json')
-                    if 'var' in intro[self.intro_idx].keys():
+                input_action = input(f'{self.data["username"]}/{self.data["location"]}{self.input_sign}>')
+
+                if self.plot:
+                    plot_file = read_file(f'resources/plot/{self.plot_file}')
+                    if 'var' in plot_file[self.plot_idx].keys():
                         self.printer.print(
-                            intro[self.intro_idx]['text'] % eval(intro[self.intro_idx]['var']),
-                            intro[self.intro_idx]['level']
+                            plot_file[self.plot_idx]['text'] % eval(plot_file[self.plot_idx]['var']),
+                            plot_file[self.plot_idx]['level']
                         )
                     else:
-                        self.printer.print(intro[self.intro_idx]['text'], intro[self.intro_idx]['level'])
-                    self.intro_idx += 1
-                    if self.intro_idx >= len(intro):
-                        self.introduce = False
+                        self.printer.print(plot_file[self.plot_idx]['text'], plot_file[self.plot_idx]['level'])
+                    self.plot_idx += 1
+                    if self.plot_idx >= len(plot_file):
+                        self.plot = False
                 else:
                     if len(input_action) > 1 and input_action[0] == '/':
-                        if input_action [1:] in ['h', 'help']:
+                        if input_action[1:] in ['h', 'help']:
                             self.help()
                     else:
                         pass
