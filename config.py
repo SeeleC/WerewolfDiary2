@@ -1,9 +1,5 @@
 __version__ = '2.0.0indev'
 
-default_backpack = [
-    'meat*4',
-]
-
 default_data = {
     'username': '',
     'health': 5,
