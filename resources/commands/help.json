@@ -1,0 +1,6 @@
+{
+  "name": "help",
+  "id": "action.help",
+  "description": "获取帮助",
+  "args": null
+}

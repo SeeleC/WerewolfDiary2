@@ -1,0 +1,8 @@
+{
+  "name": "goto",
+  "id": "action.goto",
+  "description": "前往某地",
+  "args": {
+    "place": "目标地点"
+  }
+}

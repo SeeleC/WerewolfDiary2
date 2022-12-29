@@ -21,8 +21,7 @@
   },
   {
     "level": "plain",
-    "var": "recover_active_balance",
-    "text": "你每天有 %d 次活动时间"
+    "text": "注意时间，你每次活动会消耗大量的时间。"
   },
   {
     "level": "plain",
@@ -39,6 +38,10 @@
   {
     "level": "plain",
     "text": "你可以输入 /help 来获取关于你所在场景的帮助。"
+  },
+  {
+    "level": "plain",
+    "text": "每天开始都会自动进行存档，你无需担心丢失游戏数据"
   },
   {
     "level": "plain",

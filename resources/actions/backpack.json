@@ -1,9 +1,0 @@
-{
-  "name": "backpack",
-  "id": "action.backpack",
-  "description": "information about your backpack",
-  "args": {
-    "info": "info",
-    "use": "use"
-  }
-}

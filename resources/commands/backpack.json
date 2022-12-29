@@ -1,0 +1,8 @@
+{
+  "name": "backpack",
+  "id": "action.backpack",
+  "description": "查看背包信息",
+  "args": {
+    "info": "查看背包信息",
+  }
+}

@@ -1,5 +1,5 @@
 {
   "name": "quit",
   "id": "action.quit",
-  "description": "quit the programme"
+  "description": "退出程序"
 }
